@@ -1,0 +1,9 @@
+{
+	"name": "adfspotifyprojectkk",
+	"location": "westus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "9736323a-4ffa-4c1f-b659-a95296289f6d",
+		"tenantId": "1d09d923-08b1-42e1-929f-4e671b7badf1"
+	}
+}
