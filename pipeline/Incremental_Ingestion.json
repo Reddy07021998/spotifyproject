@@ -31,7 +31,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select * from @{pipeline().parameters.schema}.@{pipeline().parameters.table}\nwhere \n@{pipeline().parameters.cdc_col} > '@{activity('last_cdc').output.firstRow.cdc}'\n\n",
+							"value": "select *\nfrom @{pipeline().parameters.schema}.@{pipeline().parameters.table}\nwhere @{pipeline().parameters.cdc_col} >\n'@{coalesce(pipeline().parameters.from_date, activity('last_cdc').output.firstRow.cdc)}'\n",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -69,7 +69,7 @@
 						"parameters": {
 							"container": "bronse",
 							"folder": {
-								"value": "@pipeline().parameters.table",
+								"value": "@{pipeline().parameters.table}_cdc",
 								"type": "Expression"
 							},
 							"file": {
@@ -109,7 +109,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"container": "bronse",
-							"folder": "cdc",
+							"folder": "@{pipeline().parameters.table}_cdc",
 							"file": "cdc.json"
 						}
 					}
@@ -186,25 +186,9 @@
 					],
 					"ifTrueActivities": [
 						{
-							"name": "Wait1",
-							"type": "Wait",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"waitTimeInSeconds": 1
-							}
-						},
-						{
-							"name": "max_cdc_copy1",
+							"name": "max_cdc",
 							"type": "Script",
-							"dependsOn": [
-								{
-									"activity": "Wait1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -231,11 +215,11 @@
 							}
 						},
 						{
-							"name": "update_last_cdc_copy1",
+							"name": "update_last_cdc",
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "max_cdc_copy1",
+									"activity": "max_cdc",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -256,7 +240,7 @@
 										{
 											"name": "cdc",
 											"value": {
-												"value": "@activity('max_cdc_copy1').output.resultSets[0].rows[0].cdc_col\n",
+												"value": "@activity('max_cdc').output.resultSets[0].rows[0].cdc_col\n",
 												"type": "Expression"
 											}
 										}
@@ -287,7 +271,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"container": "bronse",
-										"folder": "cdc",
+										"folder": "@{pipeline().parameters.table}_cdc",
 										"file": "empty.json"
 									}
 								}
@@ -316,6 +300,9 @@
 				"type": "string"
 			},
 			"cdc_col": {
+				"type": "string"
+			},
+			"from_date": {
 				"type": "string"
 			}
 		},
