@@ -42,7 +42,10 @@
 							"typeProperties": {
 								"source": {
 									"type": "PostgreSqlV2Source",
-									"query": "select *\nfrom @{item().schema}.@{item().table}\nwhere @{item().cdc_col} >\n'@{coalesce(item().from_date, activity('last_cdc').output.firstRow.cdc)}'\n",
+									"query": {
+										"value": "select *\nfrom @{item().schema}.@{item().table}\nwhere @{item().cdc_col} >\n'@{activity('last_cdc').output.firstRow.cdc}'\n",
+										"type": "Expression"
+									},
 									"queryTimeout": "02:00:00"
 								},
 								"sink": {
@@ -294,7 +297,10 @@
 										"typeProperties": {
 											"source": {
 												"type": "PostgreSqlV2Source",
-												"query": "select \n    max(@{item().cdc_col}) as cdc_col\nfrom \n@{item().schema}.@{item().table}",
+												"query": {
+													"value": "select \n    max(@{item().cdc_col}) as cdc_col\nfrom \n@{item().schema}.@{item().table}",
+													"type": "Expression"
+												},
 												"queryTimeout": "02:00:00"
 											},
 											"dataset": {
