@@ -1,6 +1,11 @@
 {
 	"name": "adfspotifyprojectkk",
-	"location": "westus2",
+	"properties": {
+		"globalConfigurations": {
+			"PolicyValidationEnabled": "true"
+		}
+	},
+	"location": "southindia",
 	"identity": {
 		"type": "SystemAssigned",
 		"principalId": "9736323a-4ffa-4c1f-b659-a95296289f6d",
