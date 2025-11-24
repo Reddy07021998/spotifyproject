@@ -1,9 +1,9 @@
 {
 	"name": "adfspotifyprojectkk",
-	"location": "westus2",
+	"location": "southindia",
 	"identity": {
 		"type": "SystemAssigned",
-		"principalId": "9736323a-4ffa-4c1f-b659-a95296289f6d",
+		"principalId": "a22f3805-3287-4754-9ef1-8a84eb7e34d3",
 		"tenantId": "1d09d923-08b1-42e1-929f-4e671b7badf1"
 	}
 }
