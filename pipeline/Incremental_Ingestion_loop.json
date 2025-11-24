@@ -41,13 +41,9 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "AzureSqlSource",
-									"sqlReaderQuery": {
-										"value": "select *\nfrom @{item().schema}.@{item().table}\nwhere @{item().cdc_col} >\n'@{coalesce(item().from_date, activity('last_cdc').output.firstRow.cdc)}'\n",
-										"type": "Expression"
-									},
-									"queryTimeout": "02:00:00",
-									"partitionOption": "None"
+									"type": "PostgreSqlV2Source",
+									"query": "select *\nfrom @{item().schema}.@{item().table}\nwhere @{item().cdc_col} >\n'@{coalesce(item().from_date, activity('last_cdc').output.firstRow.cdc)}'\n",
+									"queryTimeout": "02:00:00"
 								},
 								"sink": {
 									"type": "ParquetSink",
@@ -70,7 +66,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "DS_AzureSqlTable",
+									"referenceName": "ds_PostgreSqltable",
 									"type": "DatasetReference"
 								}
 							],
@@ -204,35 +200,6 @@
 								],
 								"ifTrueActivities": [
 									{
-										"name": "max_cdc",
-										"type": "Script",
-										"dependsOn": [],
-										"policy": {
-											"timeout": "0.12:00:00",
-											"retry": 0,
-											"retryIntervalInSeconds": 30,
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"linkedServiceName": {
-											"referenceName": "ls_AzureSqlDatabase",
-											"type": "LinkedServiceReference"
-										},
-										"typeProperties": {
-											"scripts": [
-												{
-													"type": "Query",
-													"text": {
-														"value": "select \n    max(@{item().cdc_col}) as cdc_col\nfrom \n@{item().schema}.@{item().table}",
-														"type": "Expression"
-													}
-												}
-											],
-											"scriptBlockExecutionTimeout": "02:00:00"
-										}
-									},
-									{
 										"name": "update_last_cdc",
 										"type": "Copy",
 										"dependsOn": [
@@ -258,7 +225,7 @@
 													{
 														"name": "cdc",
 														"value": {
-															"value": "@activity('max_cdc').output.resultSets[0].rows[0].cdc_col\n",
+															"value": "@activity('max_cdc').output.firstRow.cdc_col",
 															"type": "Expression"
 														}
 													}
@@ -311,6 +278,30 @@
 												}
 											}
 										]
+									},
+									{
+										"name": "max_cdc",
+										"type": "Lookup",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "PostgreSqlV2Source",
+												"query": "select \n    max(@{item().cdc_col}) as cdc_col\nfrom \n@{item().schema}.@{item().table}",
+												"queryTimeout": "02:00:00"
+											},
+											"dataset": {
+												"referenceName": "ds_PostgreSqltable",
+												"type": "DatasetReference"
+											}
+										}
 									}
 								]
 							}
