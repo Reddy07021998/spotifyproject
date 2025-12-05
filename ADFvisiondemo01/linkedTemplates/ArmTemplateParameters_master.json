@@ -1,0 +1,93 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "ADFvisiondemo01"
+		},
+		"ADLS_CSV_SOURCE_accountKey": {
+			"value": ""
+		},
+		"ADLS_DEST_PARQUET_accountKey": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"LS_AzureDatabricks_accessToken": {
+			"value": ""
+		},
+		"Ls_sqlserver_password": {
+			"value": ""
+		},
+		"PostgreSql1_password": {
+			"value": ""
+		},
+		"SqlServer1_password": {
+			"value": ""
+		},
+		"ls_AzureDataLakeStorage_accountKey": {
+			"value": ""
+		},
+		"ls_AzureSqlDatabase_password": {
+			"value": ""
+		},
+		"ADLS_CSV_SOURCE_properties_typeProperties_url": {
+			"value": "https://adlssourcevisiondemo01.dfs.core.windows.net/"
+		},
+		"ADLS_DEST_PARQUET_properties_typeProperties_url": {
+			"value": "https://adlsdestvisiondemo01.dfs.core.windows.net/"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://adlssourcevisiondemo01.dfs.core.windows.net/"
+		},
+		"LS_AzureDatabricks_properties_typeProperties_existingClusterId": {
+			"value": "1106-065422-8gcexkej"
+		},
+		"Ls_sqlserver_properties_typeProperties_server": {
+			"value": "DESKTOP-IEPVL3O"
+		},
+		"Ls_sqlserver_properties_typeProperties_database": {
+			"value": "KKRENTAL"
+		},
+		"Ls_sqlserver_properties_typeProperties_userName": {
+			"value": "KK_ADMIN"
+		},
+		"PostgreSql1_properties_typeProperties_server": {
+			"value": "aws-1-ap-northeast-1.pooler.supabase.com"
+		},
+		"PostgreSql1_properties_typeProperties_database": {
+			"value": "postgres"
+		},
+		"PostgreSql1_properties_typeProperties_username": {
+			"value": "postgres.ohviweqlvvxtllkrlqhx"
+		},
+		"SqlServer1_properties_typeProperties_server": {
+			"value": "DESKTOP-IEPVL3O"
+		},
+		"SqlServer1_properties_typeProperties_database": {
+			"value": "kkrental"
+		},
+		"SqlServer1_properties_typeProperties_userName": {
+			"value": "kk_admin"
+		},
+		"ls_AzureDataLakeStorage_properties_typeProperties_url": {
+			"value": "https://adlssourcevisiondemo01.dfs.core.windows.net/"
+		},
+		"ls_AzureSqlDatabase_properties_typeProperties_server": {
+			"value": "spotifyproject.database.windows.net"
+		},
+		"ls_AzureSqlDatabase_properties_typeProperties_database": {
+			"value": "spotifydatabase"
+		},
+		"ls_AzureSqlDatabase_properties_typeProperties_userName": {
+			"value": "kishore"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
